@@ -1,8 +1,38 @@
 apply plugin: 'java-library'
+apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'kotlin'
+
+sourceCompatibility = "8"
+targetCompatibility = "8"
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    compileOnly deps.lint.api
+    compileOnly deps.lint.checks
+    testImplementation deps.lint.core
+    testImplementation deps.lint.tests
 }
 
-sourceCompatibility = "7"
-targetCompatibility = "7"
+publish {
+    userOrg = 'jacquessmuts'
+    groupId = 'com.jacquessmuts'
+    repoName = 'RxIsDead'
+    artifactId = 'rxisdead'
+    publishVersion = '0.0.1'
+    bintrayUser = 'JacquesSmuts'
+    bintrayKey = System.getenv("BINTRAY_KEY")
+    desc = 'Lint warnings that replace rxJava with Kotlin Coroutines'
+    website = 'https://github.com/jacquessmuts/rxisdead'
+}
+
+test {
+    reports {
+        junitXml.enabled = true
+        junitXml.destination = file("$buildDir/../../build/test-results/preferenceslint")
+    }
+}
+
+jar {
+    manifest {
+        attributes('Lint-Registry-v2': 'io.flatcircle.preferenceslint.PreferencesIssueRegistry')
+    }
+}
