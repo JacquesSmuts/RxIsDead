@@ -27,12 +27,12 @@ publish {
 test {
     reports {
         junitXml.enabled = true
-        junitXml.destination = file("$buildDir/../../build/test-results/preferenceslint")
+        junitXml.destination = file("$buildDir/../../build/test-results/rxisdead")
     }
 }
 
 jar {
     manifest {
-        attributes('Lint-Registry-v2': 'io.flatcircle.preferenceslint.PreferencesIssueRegistry')
+        attributes('Lint-Registry-v2': 'io.flatcircle.preferenceslint.RxDeadIssueRegistry')
     }
 }
